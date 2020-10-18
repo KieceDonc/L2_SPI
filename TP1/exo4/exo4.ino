@@ -1,12 +1,4 @@
-/*
-  Reminder : 
-  the goal of this exercice is to simulate an intersection light with 2 light, one for car and another for pedestrians
-  loop for car:
-    3s green if pedestrians button hasn't been press else pass to red
-    1s orange
-    3s red
-*/
-int pedestrians_button = 7;
+int pedestrians_button = 2;
 int pedestrians_green = 9;
 int pedestrians_red = 8;
 
@@ -14,77 +6,58 @@ int car_green = 10;
 int car_orange = 11;
 int car_red = 12;
 
-boolean is_car_light_green = true
+bool is_pedestrians_button_press = false;
 
 void setup(){
-  pinMode(pedestrians_button, INPUT);
+  Serial.begin(9600);
+  pinMode(pedestrians_button,INPUT);
   pinMode(pedestrians_green,OUTPUT);
   pinMode(pedestrians_red,OUTPUT);
-  
-  pinMode(green,OUTPUT)
-  pinMode(orange,OUTPUT)
-  pinMode(red,OUTPUT)
-  
-  // https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
-  attachInterrupt(digitalPinToInterrupt(pedestrians_button), pedestrians_button_on_press(), RISING);
+  pinMode(car_green,OUTPUT);
+  pinMode(car_orange,OUTPUT);
+  pinMode(car_red,OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(pedestrians_button), pedestrians_button_on_press, CHANGE);
 }
 
-boolean pedestrians_button_pressed = false
-
 void loop(){
-  //car_green start
-  // we reset bool  ( important, cuz if you don't you will have the last loop bool value )   
-  pedestrians_button_pressed = false 
   digitalWrite(pedestrians_green,LOW);
   digitalWrite(pedestrians_red,HIGH);
-  
+ 
   digitalWrite(car_orange,LOW);
   digitalWrite(car_red,LOW);
   digitalWrite(car_green,HIGH);
 
   delay(3000);
-  
-  //car_green end
-  
-  // checking if a pedestrians as pressed the button
-  // if pedestrians has been press it mean that car light are already at orange-red light
-  if(!pedestrians_button_pressed){
-    // pedestrians hasn't been press the button, we need change car light to orange and then red.
-    car_goes_red();
+
+  int delay_time_needed=0;
+  if(is_pedestrians_button_press){
+    delay_time_needed=5000;
+  }else{
+    delay_time_needed=3000;
   }
-  
-  delay(3000):
-  //car_red end
+  car_goes_red(delay_time_needed);
 }
 
 void pedestrians_button_on_press(){
-  // checking if user don't spam pedestrians button 
-  if(!pedestrians_button_pressed){
-    pedestrians_pressed=true;
-    car_goes_red()
-  }
+    is_pedestrians_button_press=digitalRead(pedestrians_button);
 }
 
 
-void car_goes_red(){
-  //car_orange start
-  
-  digitalWrite(car_orange,LOW)
-  digitalWrite(car_orange,HIGH)
-  
-  delay(1000)
-  
-  //car_orange end
-  //car_red start
-  
-  digitalWrite(car_orange,LOW)
-  digitalWrite(car_red,HIGH)
-  //
-  pedestrians_goes_green()
+
+void car_goes_red(int delay_time_needed){
+    digitalWrite(car_green,LOW);
+    digitalWrite(car_orange,HIGH);
+    delay(1000);
+    digitalWrite(car_orange,LOW);
+    digitalWrite(car_red,HIGH);
+    // à partir du temps de delay on détecte si on a besoin d'activer le feu piéton ou non
+    if(delay_time_needed==5000){
+      pedestrians_goes_green();
+    }
+    delay(delay_time_needed);
 }
 
 void pedestrians_goes_green(){
   digitalWrite(pedestrians_red,LOW);
   digitalWrite(pedestrians_green,HIGH);
 }
-

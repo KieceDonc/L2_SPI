@@ -8,8 +8,9 @@ void loop(){
   power_on_led();
   delay(4000);
   power_off_led();
-  delay(2000;)
+  delay(2000);
   power_on_led();
+  delay(8000);
 }
 
 void power_on_led(){

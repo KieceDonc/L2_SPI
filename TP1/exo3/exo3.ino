@@ -12,9 +12,9 @@ int orange = 11;
 int red = 12;
 
 void setup(){
-  pinMode(green,OUTPUT)
-  pinMode(orange,OUTPUT)
-  pinMode(red,OUTPUT)
+  pinMode(green,OUTPUT);
+  pinMode(orange,OUTPUT);
+  pinMode(red,OUTPUT);
 }
 
 void loop(){
@@ -29,18 +29,18 @@ void loop(){
   //green end
   //orange start
   
-  digitalWrite(green,LOW)
-  digitalWrite(orange,HIGH)
+  digitalWrite(green,LOW);
+  digitalWrite(orange,HIGH);
   
-  delay(1000)
+  delay(1000);
   
   //orange end
   //red start
   
-  digitalWrite(orange,LOW)
-  digitalWrite(red,HIGH)
+  digitalWrite(orange,LOW);
+  digitalWrite(red,HIGH);
   
-  delay(3000)
+  delay(3000);
   
   //red end
 }
