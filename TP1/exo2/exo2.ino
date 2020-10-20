@@ -1,5 +1,3 @@
-int default_pin=13;
-
 void setup(){
   pinMode(13,OUTPUT);
 }
